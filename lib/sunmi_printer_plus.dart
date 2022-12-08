@@ -68,37 +68,37 @@ class SunmiK2Printer {
   ///
   ///This method will give you the status of the printer.
   ///Sometimes the printer can give you an error, so, try to print anyway.
-  static Future<PrinterStatus> getPrinterStatus() async {
+  static Future<K2PrinterStatus> getPrinterStatus() async {
     final String? status = await _channel.invokeMethod('GET_UPDATE_PRINTER');
     switch (status) {
       case 'ERROR':
-        return PrinterStatus.ERROR;
+        return K2PrinterStatus.ERROR;
       case 'NORMAL':
-        return PrinterStatus.NORMAL;
+        return K2PrinterStatus.NORMAL;
       case 'ABNORMAL_COMMUNICATION':
-        return PrinterStatus.ABNORMAL_COMMUNICATION;
+        return K2PrinterStatus.ABNORMAL_COMMUNICATION;
       case 'OUT_OF_PAPER':
-        return PrinterStatus.OUT_OF_PAPER;
+        return K2PrinterStatus.OUT_OF_PAPER;
       case 'PREPARING':
-        return PrinterStatus.PREPARING;
+        return K2PrinterStatus.PREPARING;
       case 'OVERHEATED':
-        return PrinterStatus.OVERHEATED;
+        return K2PrinterStatus.OVERHEATED;
       case 'OPEN_THE_LID':
-        return PrinterStatus.OPEN_THE_LID;
+        return K2PrinterStatus.OPEN_THE_LID;
       case 'PAPER_CUTTER_ABNORMAL':
-        return PrinterStatus.PAPER_CUTTER_ABNORMAL;
+        return K2PrinterStatus.PAPER_CUTTER_ABNORMAL;
       case 'PAPER_CUTTER_RECOVERED':
-        return PrinterStatus.PAPER_CUTTER_RECOVERED;
+        return K2PrinterStatus.PAPER_CUTTER_RECOVERED;
       case 'NO_BLACK_MARK':
-        return PrinterStatus.NO_BLACK_MARK;
+        return K2PrinterStatus.NO_BLACK_MARK;
       case 'NO_PRINTER_DETECTED':
-        return PrinterStatus.NO_PRINTER_DETECTED;
+        return K2PrinterStatus.NO_PRINTER_DETECTED;
       case 'FAILED_TO_UPGRADE_FIRMWARE':
-        return PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE;
+        return K2PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE;
       case 'EXCEPTION':
-        return PrinterStatus.EXCEPTION;
+        return K2PrinterStatus.EXCEPTION;
       default:
-        return PrinterStatus.UNKNOWN;
+        return K2PrinterStatus.UNKNOWN;
     }
   }
 
@@ -115,17 +115,17 @@ class SunmiK2Printer {
   ///*getPrinterMode*
   ///
   ///This method will return what mode your printer to print in one way or other, like label mode or normal mode
-  static Future<PrinterMode> getPrinterMode() async {
+  static Future<K2PrinterMode> getPrinterMode() async {
     final String mode = await _channel.invokeMethod('GET_PRINTER_MODE');
     switch (mode) {
       case 'NORMAL_MODE':
-        return PrinterMode.NORMAL_MODE;
+        return K2PrinterMode.NORMAL_MODE;
       case 'BLACK_LABEL_MODE':
-        return PrinterMode.BLACK_LABEL_MODE;
+        return K2PrinterMode.BLACK_LABEL_MODE;
       case 'LABEL_MODE':
-        return PrinterMode.LABEL_MODE;
+        return K2PrinterMode.LABEL_MODE;
       default:
-        return PrinterMode.UNKNOWN;
+        return K2PrinterMode.UNKNOWN;
     }
   }
 
@@ -180,20 +180,20 @@ class SunmiK2Printer {
   ///With this method you can print a qrcode with some errorLevel and size.
   static Future<void> printQRCode(String data,
       {int size = 5,
-      SunmiQrcodeLevel errorLevel = SunmiQrcodeLevel.LEVEL_H}) async {
+      K2SunmiQrcodeLevel errorLevel = K2SunmiQrcodeLevel.LEVEL_H}) async {
     int _errorlevel = 3;
     switch (errorLevel) {
-      case SunmiQrcodeLevel.LEVEL_L:
+      case K2SunmiQrcodeLevel.LEVEL_L:
         _errorlevel = 0;
         break;
-      case SunmiQrcodeLevel.LEVEL_M:
+      case K2SunmiQrcodeLevel.LEVEL_M:
         _errorlevel = 1;
 
         break;
-      case SunmiQrcodeLevel.LEVEL_Q:
+      case K2SunmiQrcodeLevel.LEVEL_Q:
         _errorlevel = 2;
         break;
-      case SunmiQrcodeLevel.LEVEL_H:
+      case K2SunmiQrcodeLevel.LEVEL_H:
         _errorlevel = 3;
         break;
     }
@@ -209,54 +209,54 @@ class SunmiK2Printer {
   ///
   ///With this method you can print a barcode with any type discribed below or in the enum section
   static Future<void> printBarCode(String data,
-      {SunmiBarcodeType barcodeType = SunmiBarcodeType.CODE128,
+      {K2SunmiBarcodeType barcodeType = K2SunmiBarcodeType.CODE128,
       int height = 162,
       int width = 2,
-      SunmiBarcodeTextPos textPosition =
-          SunmiBarcodeTextPos.TEXT_ABOVE}) async {
+      K2SunmiBarcodeTextPos textPosition =
+          K2SunmiBarcodeTextPos.TEXT_ABOVE}) async {
     int _codeType = 8;
     int _textPosition = 8;
     switch (barcodeType) {
-      case SunmiBarcodeType.UPCA:
+      case K2SunmiBarcodeType.UPCA:
         _codeType = 0;
         break;
-      case SunmiBarcodeType.UPCE:
+      case K2SunmiBarcodeType.UPCE:
         _codeType = 1;
         break;
-      case SunmiBarcodeType.JAN13:
+      case K2SunmiBarcodeType.JAN13:
         _codeType = 2;
         break;
-      case SunmiBarcodeType.JAN8:
+      case K2SunmiBarcodeType.JAN8:
         _codeType = 3;
         break;
-      case SunmiBarcodeType.CODE39:
+      case K2SunmiBarcodeType.CODE39:
         _codeType = 4;
         break;
-      case SunmiBarcodeType.ITF:
+      case K2SunmiBarcodeType.ITF:
         _codeType = 5;
         break;
-      case SunmiBarcodeType.CODABAR:
+      case K2SunmiBarcodeType.CODABAR:
         _codeType = 6;
         break;
-      case SunmiBarcodeType.CODE93:
+      case K2SunmiBarcodeType.CODE93:
         _codeType = 7;
         break;
-      case SunmiBarcodeType.CODE128:
+      case K2SunmiBarcodeType.CODE128:
         _codeType = 8;
         break;
     }
 
     switch (textPosition) {
-      case SunmiBarcodeTextPos.NO_TEXT:
+      case K2SunmiBarcodeTextPos.NO_TEXT:
         _textPosition = 0;
         break;
-      case SunmiBarcodeTextPos.TEXT_ABOVE:
+      case K2SunmiBarcodeTextPos.TEXT_ABOVE:
         _textPosition = 1;
         break;
-      case SunmiBarcodeTextPos.TEXT_UNDER:
+      case K2SunmiBarcodeTextPos.TEXT_UNDER:
         _textPosition = 2;
         break;
-      case SunmiBarcodeTextPos.BOTH:
+      case K2SunmiBarcodeTextPos.BOTH:
         _textPosition = 3;
         break;
     }
@@ -312,16 +312,16 @@ class SunmiK2Printer {
   ///
   ///With this method you can align your text in three ways, like LEFT, RIGHT and CENTER.
 
-  static Future<void> setAlignment(SunmiPrintAlign alignment) async {
+  static Future<void> setAlignment(K2SunmiPrintAlign alignment) async {
     late int value;
     switch (alignment) {
-      case SunmiPrintAlign.LEFT:
+      case K2SunmiPrintAlign.LEFT:
         value = 0;
         break;
-      case SunmiPrintAlign.CENTER:
+      case K2SunmiPrintAlign.CENTER:
         value = 1;
         break;
-      case SunmiPrintAlign.RIGHT:
+      case K2SunmiPrintAlign.RIGHT:
         value = 2;
         break;
       default:
@@ -398,22 +398,22 @@ class SunmiK2Printer {
   ///This method will change the fontsize , between extra small and extra large.
   ///You can see the sizes below or in the enum file.
 
-  static Future<void> setFontSize(SunmiFontSize _size) async {
+  static Future<void> setFontSize(K2SunmiFontSize _size) async {
     int _fontSize = 24;
     switch (_size) {
-      case SunmiFontSize.XS:
+      case K2SunmiFontSize.XS:
         _fontSize = 14;
         break;
-      case SunmiFontSize.SM:
+      case K2SunmiFontSize.SM:
         _fontSize = 18;
         break;
-      case SunmiFontSize.MD:
+      case K2SunmiFontSize.MD:
         _fontSize = 24;
         break;
-      case SunmiFontSize.LG:
+      case K2SunmiFontSize.LG:
         _fontSize = 36;
         break;
-      case SunmiFontSize.XL:
+      case K2SunmiFontSize.XL:
         _fontSize = 42;
         break;
     }

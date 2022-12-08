@@ -5,7 +5,7 @@ library enums;
 ///
 ///This enum will give you the status of the printer.
 ///Sometimes the status can be ERROR, but don't worry about this status, always try co print anyway!
-enum PrinterStatus {
+enum K2PrinterStatus {
   UNKNOWN,
   ERROR,
   NORMAL,
@@ -25,7 +25,7 @@ enum PrinterStatus {
 ///*PrinterMode*
 ///
 ///Enum to set printer mode
-enum PrinterMode {
+enum K2PrinterMode {
   UNKNOWN,
   NORMAL_MODE,
   BLACK_LABEL_MODE,
@@ -35,7 +35,7 @@ enum PrinterMode {
 ///*SunmiPrintAlign*
 ///
 ///Enum to set printer aligntment
-enum SunmiPrintAlign {
+enum K2SunmiPrintAlign {
   LEFT,
   CENTER,
   RIGHT,
@@ -44,7 +44,7 @@ enum SunmiPrintAlign {
 ///*SunmiQrcodeLevel*
 ///
 //Enum to set a QRcode Level (Low to High)
-enum SunmiQrcodeLevel {
+enum K2SunmiQrcodeLevel {
   LEVEL_L,
   LEVEL_M,
   LEVEL_Q,
@@ -54,7 +54,7 @@ enum SunmiQrcodeLevel {
 ///*SunmiBarcodeType*
 ///
 ///Enum to set Barcode Type
-enum SunmiBarcodeType {
+enum K2SunmiBarcodeType {
   UPCA,
   UPCE,
   JAN13,
@@ -69,7 +69,7 @@ enum SunmiBarcodeType {
 ///*SunmiBarcodeTextPos*
 ///
 ///Enum to set how the thex will be printed in barcode
-enum SunmiBarcodeTextPos {
+enum K2SunmiBarcodeTextPos {
   NO_TEXT,
   TEXT_ABOVE,
   TEXT_UNDER,
@@ -78,7 +78,7 @@ enum SunmiBarcodeTextPos {
 
 ///*SunmiFontSize*
 ///Enum to set font in the printer
-enum SunmiFontSize {
+enum K2SunmiFontSize {
   XS,
   SM,
   MD,
