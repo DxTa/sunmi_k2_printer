@@ -22,7 +22,7 @@ public class SunmiPrinterMethod {
 
     private final String TAG = SunmiPrinterMethod.class.getSimpleName();
     private ArrayList<Boolean> _printingText = new ArrayList<Boolean>();
-    private ExtPrinterService _printingService;
+    private PrinterService _printingService;
     private Context _context;
 
     public SunmiPrinterMethod(Context context) {
@@ -33,7 +33,7 @@ public class SunmiPrinterMethod {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             try {
-                _printingService = ExtPrinterService.Stub.asInterface(service);
+                _printingService = PrinterService.Stub.asInterface(service);
                 // String serviceVersion = _printingService.getServiceVersion();
                 int status = _printingService.getPrinterStatus();
                 Toast
@@ -71,7 +71,7 @@ public class SunmiPrinterMethod {
     public void bindPrinterService() {
         Intent intent = new Intent();
         intent.setPackage("com.sunmi.extprinterservice");
-        intent.setAction("com.sunmi.extprinterservice.ExtPrinterService");
+        intent.setAction("com.sunmi.extprinterservice.PrinterService");
         _context.bindService(intent, connService, Context.BIND_AUTO_CREATE);
     }
 

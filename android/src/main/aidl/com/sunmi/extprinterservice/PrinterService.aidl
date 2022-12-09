@@ -3,7 +3,7 @@ package com.sunmi.extprinterservice;
 
 // Declare any non-default types here with import statements
 
-interface ExtPrinterService {
+interface PrinterService {
 
     int sendRawData(in byte[] cmd);
 
