@@ -37,7 +37,7 @@ interface ExtPrinterService {
 
     int printColumnsText(in String[] colsTextArr, in int[] colsWidthArr, in int[] colsAlign);
 
-    void startTransBuffer(in ICallback callback);
+    void startTransBuffer();
 
-    boolean endTransBuffer(in ICallback callback);
+    boolean endTransBuffer();
 }
