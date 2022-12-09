@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import woyou.aidlservice.jiuiv5.*;
+import com.sunmi.extprinterservice.*;
 
 import java.util.Arrays;
 
@@ -33,13 +33,13 @@ public class SunmiPrinterMethod {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             try {
-                _woyouService = IWoyouService.Stub.asInterface(service);
-                String serviceVersion = _woyouService.getServiceVersion();
-                String modal = _woyouService.getPrinterModal();
+                _woyouService = ExtPrinterService.Stub.asInterface(service);
+                // String serviceVersion = _woyouService.getServiceVersion();
+                int status = _woyouService.getPrinterStatus();
                 Toast
                         .makeText(
                                 _context,
-                                "Sunmi Printer Service Connected. Version :" + serviceVersion + ", modal: " + modal,
+                                "Sunmi Printer Service Connected. Status: " + String.valueOf(status),
                                 Toast.LENGTH_LONG
                         )
                         .show();
@@ -70,20 +70,18 @@ public class SunmiPrinterMethod {
 
     public void bindPrinterService() {
         Intent intent = new Intent();
-        intent.setPackage("woyou.aidlservice.jiuiv5");
-        intent.setAction("woyou.aidlservice.jiuiv5.IWoyouStatusService");
+        intent.setPackage("com.sunmi.extprinterservice");
+        intent.setAction("com.sunmi.extprinterservice.PrinterService");
         _context.bindService(intent, connService, Context.BIND_AUTO_CREATE);
     }
 
     public void unbindPrinterService() {
         _context.unbindService(connService);
-        // _context.unbindService(connStatusService);
     }
 
     public void initPrinter() {
         try {
             _woyouService.printerInit(this._callback());
-            // _woyouStatusService.printerInit(this._callback());
         } catch (RemoteException e) {
         } catch (NullPointerException e) {
 
@@ -105,7 +103,6 @@ public class SunmiPrinterMethod {
     }
 
     public void printText(String text) {
-
         this._printingText.add(this._printText(text));
     }
 
@@ -122,7 +119,7 @@ public class SunmiPrinterMethod {
 
     public Boolean setAlignment(Integer alignment) {
         try {
-            _woyouService.setAlignment(alignment, this._callback());
+            _woyouService.setAlignMode(alignment, this._callback());
             return true;
         } catch (RemoteException e) {
             return false;
@@ -133,7 +130,19 @@ public class SunmiPrinterMethod {
 
     public Boolean setFontSize(int fontSize) {
         try {
-            _woyouService.setFontSize(fontSize, this._callback());
+            int finalFontSize = 1;
+            if (fontSize == 14) {
+                finalFontSize = 1;
+            } else if (fontSzie == 18) {
+                finalFontSize = 2;
+            } else if (fontSzie == 24) {
+                finalFontSize = 3;
+            } else if (fontSzie == 36) {
+                finalFontSize = 4;
+            } else if (fontSzie == 42) {
+                finalFontSize = 5;
+            }
+            _woyouService.setFontZoom(finalFontSize, finalFontSize, this._callback());
             return true;
         } catch (RemoteException e) {
             return false;
@@ -190,7 +199,7 @@ public class SunmiPrinterMethod {
 
     public Boolean printImage(Bitmap bitmap) {
         try {
-            _woyouService.printBitmap(bitmap, this._callback());
+            _woyouService.printBitmap(bitmap, 0, this._callback());
             return true;
         } catch (RemoteException e) {
             return false;
@@ -202,9 +211,7 @@ public class SunmiPrinterMethod {
 
     public Boolean cutPaper() {
         try {
-            // _woyouService.cutPaper(this._callback());
-            final int cutResp = _woyouService.cutPaper(2, 0);
-            // Log.i("Printer", String.valueOf(cutResp));
+            final int cutResp = _woyouService.cutPaper(0, 1);
             return true;
         } catch (RemoteException e) {
             Log.i("Printer", "exception", e);
@@ -216,7 +223,6 @@ public class SunmiPrinterMethod {
     }
 
     public String getPrinterSerialNo() {
-
         try {
             final String serial = _woyouService.getPrinterSerialNo();
             return serial;
@@ -240,26 +246,27 @@ public class SunmiPrinterMethod {
     }
 
     public int getPrinterPaper() {
-        try {
-            final int paper = _woyouService.getPrinterPaper();
-            return paper;
-        } catch (RemoteException e) {
-            return 1; // error;
-        } catch (NullPointerException e) {
-            return 1;
-        }
+        return 0;
+        // try {
+        //     final int paper = _woyouService.getPrinterPaper();
+        //     return paper;
+        // } catch (RemoteException e) {
+        //     return 1; // error;
+        // } catch (NullPointerException e) {
+        //     return 1;
+        // }
     }
 
     public int getPrinterMode() {
-        // return 0;
-        try {
-            final int mode = _woyouService.getPrinterMode();
-            return mode;
-        } catch (RemoteException e) {
-            return 3; // error;
-        } catch (NullPointerException e) {
-            return 3;
-        }
+        return 0;
+        // try {
+        //     final int mode = _woyouService.getPrinterMode();
+        //     return mode;
+        // } catch (RemoteException e) {
+        //     return 3; // error;
+        // } catch (NullPointerException e) {
+        //     return 3;
+        // }
     }
 
     public Boolean openDrawer() {
@@ -317,7 +324,9 @@ public class SunmiPrinterMethod {
 
     public void enterPrinterBuffer(Boolean clear) {
         try {
-            this._woyouService.enterPrinterBuffer(clear);
+            // this._woyouService.enterPrinterBuffer(clear);
+            this._woyouService.flush();
+            this._woyouService.startTransBuffer(this._callback());
         } catch (RemoteException e) {
         } catch (NullPointerException e) {
         }
@@ -325,7 +334,8 @@ public class SunmiPrinterMethod {
 
     public void commitPrinterBuffer() {
         try {
-            this._woyouService.commitPrinterBuffer();
+            // this._woyouService.commitPrinterBuffer();
+            this._woyouService.endTransBuffer(this._callback());
         } catch (RemoteException e) {
         } catch (NullPointerException e) {
         }
@@ -333,7 +343,9 @@ public class SunmiPrinterMethod {
 
     public void exitPrinterBuffer(Boolean clear) {
         try {
-            this._woyouService.exitPrinterBuffer(clear);
+            // this._woyouService.exitPrinterBuffer(clear);
+            this._woyouService.endTransBuffer(this._callback());
+            this._woyouService.flush();
         } catch (RemoteException e) {
         } catch (NullPointerException e) {
         }
@@ -341,7 +353,7 @@ public class SunmiPrinterMethod {
 
     public void setAlignment(int alignment) {
         try {
-            _woyouService.setAlignment(alignment, this._callback());
+            _woyouService.setAlignMode(alignment, this._callback());
         } catch (RemoteException e) {
         } catch (NullPointerException e) {
         }
