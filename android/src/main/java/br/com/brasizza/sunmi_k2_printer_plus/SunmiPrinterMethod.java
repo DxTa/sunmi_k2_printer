@@ -71,7 +71,7 @@ public class SunmiPrinterMethod {
     public void bindPrinterService() {
         Intent intent = new Intent();
         intent.setPackage("woyou.aidlservice.jiuiv5");
-        intent.setAction("woyou.aidlservice.jiuiv5.IWoyouService");
+        intent.setAction("woyou.aidlservice.jiuiv5.IWoyouStatusService");
         _context.bindService(intent, connService, Context.BIND_AUTO_CREATE);
     }
 

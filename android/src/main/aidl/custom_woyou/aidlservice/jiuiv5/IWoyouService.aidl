@@ -1,7 +1,7 @@
-package woyou.aidlservice.jiuiv5;
+package custom_woyou.aidlservice.jiuiv5;
 
-import woyou.aidlservice.jiuiv5.ICallback;
-import woyou.aidlservice.jiuiv5.ITax;
+import custom_woyou.aidlservice.jiuiv5.ICallback;
+import custom_woyou.aidlservice.jiuiv5.ITax;
 import android.graphics.Bitmap;
 import com.sunmi.trans.TransBean;
 
